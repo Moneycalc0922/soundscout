@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoundScout — Discover Your Next Favorite</title>
+
+<style>
+:root{
+  --bg:#08090d;
+  --card:#11131a;
+  --card2:#171a23;
+  --text:#f5f7fb;
+  --muted:#9da3b2;
+  --line:#252936;
+  --accent:#9b6cff;
+  --accent2:#ff4ecd;
+  --green:#5ee6a8;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(155,108,255,.16),transparent 30%),
+    radial-gradient(circle at 90% 10%,rgba(255,78,205,.10),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select{font:inherit}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(8,9,13,.86);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  max-width:1150px;
+  margin:auto;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:-.5px;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  margin-left:22px;
+  font-size:14px;
+  font-weight:700;
+}
+
+nav a:hover{color:white}
+
+.hero{
+  max-width:1000px;
+  margin:auto;
+  padding:85px 20px 60px;
+  text-align:center;
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 13px;
+  border:1px solid #332750;
+  background:#151021;
+  border-radius:30px;
+  color:#cdbdff;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:clamp(42px,8vw,76px);
+  line-height:.98;
+  letter-spacing:-3px;
+  margin-bottom:20px;
+}
+
+.gradient{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  max-width:650px;
+  margin:auto;
+  color:var(--muted);
+  font-size:18px;
+}
+
+.search-box{
+  max-width:700px;
+  margin:30px auto 0;
+  display:flex;
+  gap:10px;
+  background:var(--card);
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:16px;
+}
+
+.search-box input{
+  flex:1;
+  min-width:0;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:white;
+  padding:12px 14px;
+  font-size:16px;
+}
+
+.search-box input::placeholder{color:#6f7482}
+
+.btn{
+  border:0;
+  cursor:pointer;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:white;
+  font-weight:800;
+  padding:12px 20px;
+  border-radius:11px;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.92;
+}
+
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:35px 20px 70px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.section-head h2{
+  font-size:28px;
+  letter-spacing:-1px;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.filter{
+  border:1px solid var(--line);
+  background:var(--card);
+  color:#c6cad5;
+  padding:9px 14px;
+  border-radius:30px;
+  cursor:pointer;
+}
+
+.filter.active,
+.filter:hover{
+  background:#241b3a;
+  border-color:#62449e;
+  color:white;
+}
+
+.results{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+
+.song-card{
+  background:linear-gradient(145deg,#151821,#101218);
+  border:1px solid var(--line);
+  border-radius:17px;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.song-card:hover{
+  transform:translateY(-4px);
+  border-color:#44365e;
+}
+
+.cover{
+  width:100%;
+  aspect-ratio:1;
+  object-fit:cover;
+  display:block;
+  background:#1c1f28;
+}
+
+.song-info{
+  padding:15px;
+}
+
+.song-title{
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.artist{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  margin-top:13px;
+}
+
+.small-btn{
+  flex:1;
+  border:1px solid var(--line);
+  background:#191c25;
+  color:white;
+  padding:9px 8px;
+  border-radius:9px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.small-btn:hover{background:#242834}
+
+.roulette{
+  margin-top:30px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(155,108,255,.22),transparent 35%),
+    radial-gradient(circle at 80% 80%,rgba(255,78,205,.16),transparent 35%),
+    var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:40px 25px;
+  text-align:center;
+}
+
+.roulette h2{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.roulette p{
+  color:var(--muted);
+  margin-bottom:20px;
+}
+
+.random-result{
+  max-width:500px;
+  margin:25px auto 0;
+  display:none;
+  background:#0c0e13;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  text-align:left;
+}
+
+.random-result img{
+  width:75px;
+  height:75px;
+  border-radius:10px;
+  object-fit:cover;
+  float:left;
+  margin-right:15px;
+}
+
+.random-result h3{padding-top:7px}
+.random-result p{margin:4px 0 0}
+
+.favorites{
+  min-height:80px;
+}
+
+.empty{
+  padding:30px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--line);
+  border-radius:15px;
+}
+
+.about{
+  border-top:1px solid var(--line);
+  max-width:800px;
+  margin:auto;
+  text-align:center;
+  padding:60px 20px;
+}
+
+.about h2{font-size:30px}
+.about p{
+  color:var(--muted);
+  margin-top:12px;
+}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:30px 20px;
+  text-align:center;
+  color:#686e7b;
+  font-size:13px;
+}
+
+.loading{
+  text-align:center;
+  padding:45px;
+  color:var(--muted);
+  grid-column:1/-1;
+}
+
+@media(max-width:900px){
+  .results{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:650px){
+  nav a{margin-left:9px;font-size:12px}
+  .hero{padding-top:55px}
+  .hero h1{letter-spacing:-2px}
+  .search-box{flex-direction:column}
+  .search-box .btn{width:100%}
+  .results{grid-template-columns:repeat(2,1fr)}
+  .container{padding-left:15px;padding-right:15px}
+}
+
+@media(max-width:390px){
+  .results{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Sound<span>Scout</span> 🎧</div>
+
+    <nav>
+      <a href="#discover">Discover</a>
+      <a href="#favorites">Favorites</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+
+<section class="hero">
+
+  <div class="badge">🎵 Find your next favorite song</div>
+
+  <h1>
+    Music you'll<br>
+    <span class="gradient">actually want to hear.</span>
+  </h1>
+
+  <p>
+    Tell SoundScout what you already love and discover
+    songs and artists that fit your taste.
+  </p>
+
+  <div class="search-box">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Try an artist or song..."
+      autocomplete="off"
+    >
+    <button class="btn" onclick="searchMusic()">Discover Music</button>
+  </div>
+
+</section>
+
+
+<section class="container" id="discover">
+
+  <div class="section-head">
+    <div>
+      <h2>Discover Music</h2>
+      <p>Search for an artist or song to get started.</p>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter active" onclick="quickSearch('')">✨ All</button>
+    <button class="filter" onclick="quickSearch('pop')">Pop</button>
+    <button class="filter" onclick="quickSearch('hip hop')">Hip-Hop</button>
+    <button class="filter" onclick="quickSearch('rock')">Rock</button>
+    <button class="filter" onclick="quickSearch('r&b')">R&B</button>
+    <button class="filter" onclick="quickSearch('indie')">Indie</button>
+    <button class="filter" onclick="quickSearch('latin')">Latin</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="loading">
+      Search for an artist or song to discover music.
+    </div>
+  </div>
+
+
+  <div class="roulette">
+
+    <h2>🎲 Discover Roulette</h2>
+
+    <p>
+      Don't know what you want to listen to?
+      Let SoundScout pick something.
+    </p>
+
+    <button class="btn" onclick="randomMusic()">
+      Surprise Me
+    </button>
+
+    <div class="random-result" id="randomResult">
+      <img id="randomImage" src="" alt="Album artwork">
+
+      <h3 id="randomTitle"></h3>
+      <p id="randomArtist"></p>
+
+      <div style="clear:both"></div>
+
+      <button class="small-btn" style="margin-top:12px;width:100%"
+        onclick="openRandomSong()">
+        Listen
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="container" id="favorites">
+
+  <div class="section-head">
+    <div>
+      <h2>❤️ Your Favorites</h2>
+      <p>Your saved discoveries stay on this device.</p>
+    </div>
+  </div>
+
+  <div class="results favorites" id="favoritesList">
+    <div class="empty">
+      You haven't saved any songs yet.
+    </div>
+  </div>
+
+</section>
+
+
+<section class="about" id="about">
+
+  <h2>About SoundScout</h2>
+
+  <p>
+    SoundScout is a music discovery tool designed to make finding
+    new music easier. Search for music you already enjoy and
+    explore new songs and artists.
+  </p>
+
+  <p>
+    SoundScout does not host music files. Listening takes place
+    through the music services provided by the links on each result.
+  </p>
+
+</section>
+
+
+<footer>
+  © 2026 SoundScout · Discover something new.
+</footer>
+
+
+<script>
+
+const API =
+  "https://itunes.apple.com/search?limit=24&entity=song&term=";
+
+let favorites =
+  JSON.parse(localStorage.getItem("soundScoutFavorites") || "[]");
+
+let lastRandomUrl = "";
+
+
+/* SEARCH */
+
+async function searchMusic(){
+
+  const input =
+    document.getElementById("searchInput");
+
+  const term = input.value.trim();
+
+  if(!term){
+    showMessage("Type an artist or song to search.");
+    return;
+  }
+
+  await performSearch(term);
+}
+
+
+async function quickSearch(term){
+
+  if(!term){
+    showMessage("Search for an artist or song to discover music.");
+    return;
+  }
+
+  document.getElementById("searchInput").value = term;
+
+  await performSearch(term);
+}
+
+
+async function performSearch(term){
+
+  const results =
+    document.getElementById("results");
+
+  results.innerHTML =
+    '<div class="loading">Finding music for you... 🎧</div>';
+
+  try{
+
+    const response =
+      await fetch(API + encodeURIComponent(term));
+
+    const data =
+      await response.json();
+
+    if(!data.results || data.results.length === 0){
+
+      showMessage(
+        "We couldn't find anything. Try another artist or song."
+      );
+
+      return;
+    }
+
+    renderResults(data.results);
+
+  }catch(error){
+
+    showMessage(
+      "Something went wrong. Check your internet connection and try again."
+    );
+
+  }
+
+}
+
+
+/* DISPLAY RESULTS */
+
+function renderResults(songs){
+
+  const container =
+    document.getElementById("results");
+
+  container.innerHTML = "";
+
+  songs.forEach(song => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "song-card";
+
+    const artwork =
+      song.artworkUrl100
+        ? song.artworkUrl100.replace("100x100","500x500")
+        : "";
+
+    const isFavorite =
+      favorites.some(item => item.trackId === song.trackId);
+
+    card.innerHTML = `
+
+      <img
+        class="cover"
+        src="${artwork}"
+        alt="Album artwork"
+        loading="lazy"
+      >
+
+      <div class="song-info">
+
+        <div class="song-title">
+          ${escapeHTML(song.trackName || "Unknown song")}
+        </div>
+
+        <div class="artist">
+          ${escapeHTML(song.artistName || "Unknown artist")}
+        </div>
+
+        <div class="card-actions">
+
+          <button
+            class="small-btn"
+            onclick="listenTo('${encodeURI(song.trackViewUrl || "#")}')">
+            ▶ Listen
+          </button>
+
+          <button
+            class="small-btn"
+            onclick="toggleFavorite(${song.trackId})">
+            ${isFavorite ? "❤️ Saved" : "♡ Save"}
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* FAVORITES */
+
+function toggleFavorite(id){
+
+  const existing =
+    favorites.findIndex(song => song.trackId === id);
+
+  if(existing !== -1){
+
+    favorites.splice(existing,1);
+
+  }else{
+
+    const cards =
+      document.querySelectorAll(".song-card");
+
+    let found = null;
+
+    /*
+      Find the song in the current search results
+      by looking at the rendered card.
+    */
+
+    const searchInput =
+      document.getElementById("searchInput").value;
+
+    fetch(API + encodeURIComponent(searchInput))
+      .then(response => response.json())
+      .then(data => {
+
+        found =
+          data.results.find(song => song.trackId === id);
+
+        if(found){
+
+          favorites.push(found);
+
+          saveFavorites();
+
+          renderFavorites();
+
+          performSearch(searchInput);
+
+        }
+
+      });
+
+    return;
+  }
+
+  saveFavorites();
+  renderFavorites();
+
+  const term =
+    document.getElementById("searchInput").value;
+
+  if(term) performSearch(term);
+}
+
+
+function saveFavorites(){
+
+  localStorage.setItem(
+    "soundScoutFavorites",
+    JSON.stringify(favorites)
+  );
+
+}
+
+
+function renderFavorites(){
+
+  const container =
+    document.getElementById("favoritesList");
+
+  if(favorites.length === 0){
+
+    container.innerHTML =
+      '<div class="empty">You haven\'t saved any songs yet.</div>';
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  favorites.forEach(song => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "song-card";
+
+    const artwork =
+      song.artworkUrl100
+        ? song.artworkUrl100.replace("100x100","500x500")
+        : "";
+
+    card.innerHTML = `
+
+      <img
+        class="cover"
+        src="${artwork}"
+        alt="Album artwork"
+        loading="lazy"
+      >
+
+      <div class="song-info">
+
+        <div class="song-title">
+          ${escapeHTML(song.trackName)}
+        </div>
+
+        <div class="artist">
+          ${escapeHTML(song.artistName)}
+        </div>
+
+        <div class="card-actions">
+
+          <button
+            class="small-btn"
+            onclick="listenTo('${encodeURI(song.trackViewUrl || "#")}')">
+            ▶ Listen
+          </button>
+
+          <button
+            class="small-btn"
+            onclick="removeFavorite(${song.trackId})">
+            Remove
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+function removeFavorite(id){
+
+  favorites =
+    favorites.filter(song => song.trackId !== id);
+
+  saveFavorites();
+  renderFavorites();
+
+}
+
+
+/* RANDOM DISCOVERY */
+
+async function randomMusic(){
+
+  const genres = [
+    "pop",
+    "rock",
+    "hip hop",
+    "r&b",
+    "indie",
+    "latin",
+    "alternative",
+    "electronic"
+  ];
+
+  const genre =
+    genres[Math.floor(Math.random()*genres.length)];
+
+  try{
+
+    const response =
+      await fetch(
+        API +
+        encodeURIComponent(genre)
+      );
+
+    const data =
+      await response.json();
+
+    if(!data.results.length) return;
+
+    const song =
+      data.results[
+        Math.floor(Math.random()*data.results.length)
+      ];
+
+    const artwork =
+      song.artworkUrl100
+        ? song.artworkUrl100.replace("100x100","500x500")
+        : "";
+
+    document.getElementById("randomImage").src =
+      artwork;
+
+    document.getElementById("randomTitle").textContent =
+      song.trackName;
+
+    document.getElementById("randomArtist").textContent =
+      song.artistName;
+
+    lastRandomUrl =
+      song.trackViewUrl || "#";
+
+    document.getElementById("randomResult").style.display =
+      "block";
+
+  }catch(error){
+
+    alert("Couldn't find a random song right now.");
+
+  }
+
+}
+
+
+function openRandomSong(){
+
+  if(lastRandomUrl){
+    window.open(lastRandomUrl,"_blank");
+  }
+
+}
+
+
+/* HELPERS */
+
+function listenTo(url){
+
+  if(url && url !== "#"){
+    window.open(url,"_blank");
+  }
+
+}
+
+
+function showMessage(message){
+
+  document.getElementById("results").innerHTML =
+    `<div class="loading">${escapeHTML(message)}</div>`;
+
+}
+
+
+function escapeHTML(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ENTER KEY */
+
+document
+  .getElementById("searchInput")
+  .addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+      searchMusic();
+    }
+
+  });
+
+
+/* LOAD SAVED MUSIC */
+
+renderFavorites();
+
+</script>
+
+</body>
+</html>
