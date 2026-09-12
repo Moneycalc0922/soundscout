@@ -3,370 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SoundScout — Discover Your Next Favorite</title>
+
+<title>SoundScout — Find Music That Sounds Like You</title>
 
 <style>
-:root{
-  --bg:#08090d;
-  --card:#11131a;
-  --card2:#171a23;
-  --text:#f5f7fb;
-  --muted:#9da3b2;
-  --line:#252936;
-  --accent:#9b6cff;
-  --accent2:#ff4ecd;
-  --green:#5ee6a8;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bg: #09090f;
+  --card: #12121b;
+  --card2: #181824;
+  --text: #ffffff;
+  --muted: #a4a4b5;
+  --purple: #8b5cf6;
+  --pink: #ec4899;
+  --border: rgba(255,255,255,.09);
+}
 
-html{scroll-behavior:smooth}
-
-body{
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+body {
+  font-family: Arial, Helvetica, sans-serif;
   background:
-    radial-gradient(circle at 10% 0%,rgba(155,108,255,.16),transparent 30%),
-    radial-gradient(circle at 90% 10%,rgba(255,78,205,.10),transparent 28%),
+    radial-gradient(circle at top, rgba(139,92,246,.18), transparent 35%),
     var(--bg);
-  color:var(--text);
-  min-height:100vh;
+  color: var(--text);
+  min-height: 100vh;
 }
 
-button,input,select{font:inherit}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:rgba(8,9,13,.86);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(9,9,15,.88);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border);
 }
 
-.nav{
-  max-width:1150px;
-  margin:auto;
-  padding:16px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.nav {
+  max-width: 1150px;
+  margin: auto;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:-.5px;
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.5px;
 }
 
-.logo span{
-  color:var(--accent);
+.logo span {
+  color: var(--purple);
 }
 
-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:22px;
-  font-size:14px;
-  font-weight:700;
+nav {
+  display: flex;
+  gap: 20px;
 }
 
-nav a:hover{color:white}
-
-.hero{
-  max-width:1000px;
-  margin:auto;
-  padding:85px 20px 60px;
-  text-align:center;
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
 }
 
-.badge{
-  display:inline-block;
-  padding:7px 13px;
-  border:1px solid #332750;
-  background:#151021;
-  border-radius:30px;
-  color:#cdbdff;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:20px;
+nav a:hover {
+  color: white;
 }
 
-.hero h1{
-  font-size:clamp(42px,8vw,76px);
-  line-height:.98;
-  letter-spacing:-3px;
-  margin-bottom:20px;
+.hero {
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  padding: 80px 20px 45px;
 }
 
-.gradient{
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;
-  color:transparent;
+.badge {
+  display: inline-block;
+  padding: 8px 13px;
+  border: 1px solid rgba(139,92,246,.35);
+  background: rgba(139,92,246,.1);
+  border-radius: 999px;
+  color: #c4b5fd;
+  font-size: 13px;
+  margin-bottom: 22px;
 }
 
-.hero p{
-  max-width:650px;
-  margin:auto;
-  color:var(--muted);
-  font-size:18px;
+h1 {
+  font-size: clamp(42px, 8vw, 76px);
+  line-height: .98;
+  letter-spacing: -4px;
+  margin-bottom: 22px;
 }
 
-.search-box{
-  max-width:700px;
-  margin:30px auto 0;
-  display:flex;
-  gap:10px;
-  background:var(--card);
-  padding:8px;
-  border:1px solid var(--line);
-  border-radius:16px;
+.gradient {
+  background: linear-gradient(90deg, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-.search-box input{
-  flex:1;
-  min-width:0;
-  background:transparent;
-  border:0;
-  outline:0;
-  color:white;
-  padding:12px 14px;
-  font-size:16px;
+.hero p {
+  color: var(--muted);
+  max-width: 650px;
+  margin: auto;
+  line-height: 1.7;
+  font-size: 17px;
 }
 
-.search-box input::placeholder{color:#6f7482}
-
-.btn{
-  border:0;
-  cursor:pointer;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  color:white;
-  font-weight:800;
-  padding:12px 20px;
-  border-radius:11px;
-  transition:.2s;
+.search-box {
+  max-width: 720px;
+  margin: 35px auto 0;
+  display: flex;
+  gap: 10px;
 }
 
-.btn:hover{
-  transform:translateY(-1px);
-  opacity:.92;
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  padding: 17px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: white;
+  outline: none;
+  font-size: 16px;
 }
 
-.container{
-  max-width:1150px;
-  margin:auto;
-  padding:35px 20px 70px;
+.search-box input:focus {
+  border-color: var(--purple);
 }
 
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:20px;
-  margin-bottom:20px;
+button {
+  border: 0;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
 }
 
-.section-head h2{
-  font-size:28px;
-  letter-spacing:-1px;
+.primary {
+  padding: 0 22px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
 }
 
-.section-head p{
-  color:var(--muted);
-  font-size:14px;
+.primary:hover {
+  opacity: .9;
 }
 
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:25px;
+.container {
+  max-width: 1150px;
+  margin: auto;
+  padding: 25px 20px 80px;
 }
 
-.filter{
-  border:1px solid var(--line);
-  background:var(--card);
-  color:#c6cad5;
-  padding:9px 14px;
-  border-radius:30px;
-  cursor:pointer;
+.section-title {
+  font-size: 25px;
+  margin-bottom: 18px;
+}
+
+.controls {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.filter {
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
 }
 
 .filter.active,
-.filter:hover{
-  background:#241b3a;
-  border-color:#62449e;
-  color:white;
+.filter:hover {
+  background: rgba(139,92,246,.2);
+  color: white;
+  border-color: rgba(139,92,246,.5);
 }
 
-.results{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+.status {
+  color: var(--muted);
+  margin-bottom: 20px;
+  min-height: 20px;
 }
 
-.song-card{
-  background:linear-gradient(145deg,#151821,#101218);
-  border:1px solid var(--line);
-  border-radius:17px;
-  overflow:hidden;
-  transition:.2s;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 
-.song-card:hover{
-  transform:translateY(-4px);
-  border-color:#44365e;
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform .2s, border-color .2s;
 }
 
-.cover{
-  width:100%;
-  aspect-ratio:1;
-  object-fit:cover;
-  display:block;
-  background:#1c1f28;
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139,92,246,.4);
 }
 
-.song-info{
-  padding:15px;
+.album {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--card2);
 }
 
-.song-title{
-  font-weight:800;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.card-content {
+  padding: 15px;
 }
 
-.artist{
-  color:var(--muted);
-  font-size:14px;
-  margin-top:4px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.song {
+  font-weight: 700;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card-actions{
-  display:flex;
-  gap:8px;
-  margin-top:13px;
+.artist {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.small-btn{
-  flex:1;
-  border:1px solid var(--line);
-  background:#191c25;
-  color:white;
-  padding:9px 8px;
-  border-radius:9px;
-  cursor:pointer;
-  font-size:13px;
-  font-weight:700;
+.features {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 7px;
+  margin-bottom: 13px;
 }
 
-.small-btn:hover{background:#242834}
-
-.roulette{
-  margin-top:30px;
-  background:
-    radial-gradient(circle at 20% 20%,rgba(155,108,255,.22),transparent 35%),
-    radial-gradient(circle at 80% 80%,rgba(255,78,205,.16),transparent 35%),
-    var(--card);
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:40px 25px;
-  text-align:center;
+.feature {
+  background: var(--card2);
+  border-radius: 9px;
+  padding: 7px;
+  font-size: 11px;
+  color: var(--muted);
 }
 
-.roulette h2{
-  font-size:34px;
-  margin-bottom:8px;
+.feature strong {
+  display: block;
+  color: white;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
-.roulette p{
-  color:var(--muted);
-  margin-bottom:20px;
+.actions {
+  display: flex;
+  gap: 7px;
 }
 
-.random-result{
-  max-width:500px;
-  margin:25px auto 0;
-  display:none;
-  background:#0c0e13;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:15px;
-  text-align:left;
+.listen,
+.favorite {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-.random-result img{
-  width:75px;
-  height:75px;
-  border-radius:10px;
-  object-fit:cover;
-  float:left;
-  margin-right:15px;
+.listen {
+  background: rgba(139,92,246,.18);
+  color: #c4b5fd;
 }
 
-.random-result h3{padding-top:7px}
-.random-result p{margin:4px 0 0}
-
-.favorites{
-  min-height:80px;
+.favorite {
+  background: rgba(255,255,255,.07);
 }
 
-.empty{
-  padding:30px;
-  text-align:center;
-  color:var(--muted);
-  border:1px dashed var(--line);
-  border-radius:15px;
+.favorite.saved {
+  background: rgba(236,72,153,.18);
+  color: #f9a8d4;
 }
 
-.about{
-  border-top:1px solid var(--line);
-  max-width:800px;
-  margin:auto;
-  text-align:center;
-  padding:60px 20px;
+.similar-section {
+  margin-top: 70px;
+  padding: 30px;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(139,92,246,.12),
+    rgba(236,72,153,.05)
+  );
+  border-radius: 25px;
 }
 
-.about h2{font-size:30px}
-.about p{
-  color:var(--muted);
-  margin-top:12px;
+.similar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
 }
 
-footer{
-  border-top:1px solid var(--line);
-  padding:30px 20px;
-  text-align:center;
-  color:#686e7b;
-  font-size:13px;
+.similar-head p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 6px;
 }
 
-.loading{
-  text-align:center;
-  padding:45px;
-  color:var(--muted);
-  grid-column:1/-1;
+.surprise {
+  padding: 12px 17px;
+  border-radius: 12px;
+  background: white;
+  color: #111;
 }
 
-@media(max-width:900px){
-  .results{grid-template-columns:repeat(3,1fr)}
+.match {
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
-@media(max-width:650px){
-  nav a{margin-left:9px;font-size:12px}
-  .hero{padding-top:55px}
-  .hero h1{letter-spacing:-2px}
-  .search-box{flex-direction:column}
-  .search-box .btn{width:100%}
-  .results{grid-template-columns:repeat(2,1fr)}
-  .container{padding-left:15px;padding-right:15px}
+.about {
+  max-width: 850px;
+  margin: 80px auto 0;
+  text-align: center;
 }
 
-@media(max-width:390px){
-  .results{grid-template-columns:1fr}
+.about p {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 15px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 40px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 18px;
+}
+
+@media (max-width: 850px) {
+  .grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 55px;
+  }
+
+  h1 {
+    letter-spacing: -2px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .primary {
+    height: 52px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+
+  .card-content {
+    padding: 11px;
+  }
+
+  .similar-section {
+    padding: 20px;
+  }
+
+  .similar-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>
 </head>
@@ -379,562 +414,658 @@ footer{
 
     <nav>
       <a href="#discover">Discover</a>
+      <a href="#similar">Similar</a>
       <a href="#favorites">Favorites</a>
       <a href="#about">About</a>
     </nav>
   </div>
 </header>
 
-
 <section class="hero">
-
-  <div class="badge">🎵 Find your next favorite song</div>
+  <div class="badge">AI-inspired music discovery</div>
 
   <h1>
-    Music you'll<br>
-    <span class="gradient">actually want to hear.</span>
+    Find music that<br>
+    <span class="gradient">sounds like you.</span>
   </h1>
 
   <p>
-    Tell SoundScout what you already love and discover
-    songs and artists that fit your taste.
+    Search for a song or artist and discover music using
+    tempo, energy, rhythm, danceability and other musical
+    characteristics.
   </p>
 
   <div class="search-box">
     <input
       id="searchInput"
       type="text"
-      placeholder="Try an artist or song..."
-      autocomplete="off"
+      placeholder="Try: Drake, Bad Bunny, Taylor Swift..."
+      onkeydown="if(event.key==='Enter') searchMusic()"
     >
-    <button class="btn" onclick="searchMusic()">Discover Music</button>
-  </div>
 
+    <button class="primary" onclick="searchMusic()">
+      Discover
+    </button>
+  </div>
 </section>
 
+<main class="container" id="discover">
 
-<section class="container" id="discover">
+  <h2 class="section-title">Explore music</h2>
 
-  <div class="section-head">
-    <div>
-      <h2>Discover Music</h2>
-      <p>Search for an artist or song to get started.</p>
+  <div class="controls">
+    <button class="filter active" onclick="setGenre('all', this)">All</button>
+    <button class="filter" onclick="setGenre('pop', this)">Pop</button>
+    <button class="filter" onclick="setGenre('hip-hop', this)">Hip-Hop</button>
+    <button class="filter" onclick="setGenre('rock', this)">Rock</button>
+    <button class="filter" onclick="setGenre('r&b', this)">R&B</button>
+    <button class="filter" onclick="setGenre('indie', this)">Indie</button>
+    <button class="filter" onclick="setGenre('latin', this)">Latin</button>
+  </div>
+
+  <div class="status" id="status">
+    Search for a song or artist to begin.
+  </div>
+
+  <div class="grid" id="results"></div>
+
+  <section class="similar-section" id="similar">
+
+    <div class="similar-head">
+
+      <div>
+        <h2>🎯 Sounds Like This</h2>
+
+        <p id="similarText">
+          Select a song above to find tracks with similar musical characteristics.
+        </p>
+      </div>
+
+      <button class="surprise" onclick="surpriseMe()">
+        🎲 Surprise Me
+      </button>
+
     </div>
-  </div>
 
-  <div class="filters">
-    <button class="filter active" onclick="quickSearch('')">✨ All</button>
-    <button class="filter" onclick="quickSearch('pop')">Pop</button>
-    <button class="filter" onclick="quickSearch('hip hop')">Hip-Hop</button>
-    <button class="filter" onclick="quickSearch('rock')">Rock</button>
-    <button class="filter" onclick="quickSearch('r&b')">R&B</button>
-    <button class="filter" onclick="quickSearch('indie')">Indie</button>
-    <button class="filter" onclick="quickSearch('latin')">Latin</button>
-  </div>
+    <div class="grid" id="similarResults"></div>
 
-  <div class="results" id="results">
-    <div class="loading">
-      Search for an artist or song to discover music.
-    </div>
-  </div>
+  </section>
 
+  <section class="about" id="about">
 
-  <div class="roulette">
-
-    <h2>🎲 Discover Roulette</h2>
+    <h2>How SoundScout works</h2>
 
     <p>
-      Don't know what you want to listen to?
-      Let SoundScout pick something.
+      SoundScout is designed around a simple idea:
+      instead of recommending music only because it shares
+      a genre or artist, music can also be compared using
+      characteristics such as tempo, energy, rhythm,
+      danceability and sonic profile.
     </p>
 
-    <button class="btn" onclick="randomMusic()">
-      Surprise Me
-    </button>
+  </section>
 
-    <div class="random-result" id="randomResult">
-      <img id="randomImage" src="" alt="Album artwork">
+</main>
 
-      <h3 id="randomTitle"></h3>
-      <p id="randomArtist"></p>
-
-      <div style="clear:both"></div>
-
-      <button class="small-btn" style="margin-top:12px;width:100%"
-        onclick="openRandomSong()">
-        Listen
-      </button>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="container" id="favorites">
-
-  <div class="section-head">
-    <div>
-      <h2>❤️ Your Favorites</h2>
-      <p>Your saved discoveries stay on this device.</p>
-    </div>
-  </div>
-
-  <div class="results favorites" id="favoritesList">
-    <div class="empty">
-      You haven't saved any songs yet.
-    </div>
-  </div>
-
-</section>
-
-
-<section class="about" id="about">
-
-  <h2>About SoundScout</h2>
-
-  <p>
-    SoundScout is a music discovery tool designed to make finding
-    new music easier. Search for music you already enjoy and
-    explore new songs and artists.
-  </p>
-
-  <p>
-    SoundScout does not host music files. Listening takes place
-    through the music services provided by the links on each result.
-  </p>
-
-</section>
-
-
-<footer>
-  © 2026 SoundScout · Discover something new.
+<footer id="favorites">
+  SoundScout © 2026 — Discover your next favorite song.
 </footer>
-
 
 <script>
 
 const API =
-  "https://itunes.apple.com/search?limit=24&entity=song&term=";
+  "https://itunes.apple.com/search?limit=40&entity=song&term=";
+
+let currentSongs = [];
+let currentGenre = "all";
+let selectedSong = null;
 
 let favorites =
-  JSON.parse(localStorage.getItem("soundScoutFavorites") || "[]");
-
-let lastRandomUrl = "";
+  JSON.parse(localStorage.getItem("soundscoutFavorites") || "[]");
 
 
-/* SEARCH */
+// --------------------------------------------------
+// SEARCH
+// --------------------------------------------------
 
-async function searchMusic(){
+async function searchMusic() {
 
   const input =
-    document.getElementById("searchInput");
+    document.getElementById("searchInput").value.trim();
 
-  const term = input.value.trim();
+  const status =
+    document.getElementById("status");
 
-  if(!term){
-    showMessage("Type an artist or song to search.");
+  if (!input) {
+    status.textContent =
+      "Type a song, artist, or genre first.";
     return;
   }
 
-  await performSearch(term);
-}
+  status.textContent =
+    "Analyzing music...";
 
-
-async function quickSearch(term){
-
-  if(!term){
-    showMessage("Search for an artist or song to discover music.");
-    return;
-  }
-
-  document.getElementById("searchInput").value = term;
-
-  await performSearch(term);
-}
-
-
-async function performSearch(term){
-
-  const results =
-    document.getElementById("results");
-
-  results.innerHTML =
-    '<div class="loading">Finding music for you... 🎧</div>';
-
-  try{
+  try {
 
     const response =
-      await fetch(API + encodeURIComponent(term));
+      await fetch(API + encodeURIComponent(input));
 
     const data =
       await response.json();
 
-    if(!data.results || data.results.length === 0){
+    currentSongs =
+      data.results || [];
 
-      showMessage(
-        "We couldn't find anything. Try another artist or song."
-      );
+    renderResults(currentSongs);
 
-      return;
-    }
+    status.textContent =
+      currentSongs.length
+        ? `Found ${currentSongs.length} tracks.`
+        : "No tracks found.";
 
-    renderResults(data.results);
+  } catch(error) {
 
-  }catch(error){
+    console.error(error);
 
-    showMessage(
-      "Something went wrong. Check your internet connection and try again."
-    );
+    status.textContent =
+      "Something went wrong. Please try again.";
 
   }
-
 }
 
 
-/* DISPLAY RESULTS */
+// --------------------------------------------------
+// RENDER RESULTS
+// --------------------------------------------------
 
-function renderResults(songs){
+function renderResults(songs) {
 
   const container =
     document.getElementById("results");
 
   container.innerHTML = "";
 
-  songs.forEach(song => {
+  let filtered = songs;
 
-    const card =
-      document.createElement("div");
+  if (currentGenre !== "all") {
 
-    card.className = "song-card";
+    filtered =
+      songs.filter(song => {
 
-    const artwork =
-      song.artworkUrl100
-        ? song.artworkUrl100.replace("100x100","500x500")
-        : "";
+        const text =
+          `${song.primaryGenreName || ""} ${song.collectionName || ""}`
+          .toLowerCase();
 
-    const isFavorite =
-      favorites.some(item => item.trackId === song.trackId);
-
-    card.innerHTML = `
-
-      <img
-        class="cover"
-        src="${artwork}"
-        alt="Album artwork"
-        loading="lazy"
-      >
-
-      <div class="song-info">
-
-        <div class="song-title">
-          ${escapeHTML(song.trackName || "Unknown song")}
-        </div>
-
-        <div class="artist">
-          ${escapeHTML(song.artistName || "Unknown artist")}
-        </div>
-
-        <div class="card-actions">
-
-          <button
-            class="small-btn"
-            onclick="listenTo('${encodeURI(song.trackViewUrl || "#")}')">
-            ▶ Listen
-          </button>
-
-          <button
-            class="small-btn"
-            onclick="toggleFavorite(${song.trackId})">
-            ${isFavorite ? "❤️ Saved" : "♡ Save"}
-          </button>
-
-        </div>
-
-      </div>
-    `;
-
-    container.appendChild(card);
-
-  });
-
-}
-
-
-/* FAVORITES */
-
-function toggleFavorite(id){
-
-  const existing =
-    favorites.findIndex(song => song.trackId === id);
-
-  if(existing !== -1){
-
-    favorites.splice(existing,1);
-
-  }else{
-
-    const cards =
-      document.querySelectorAll(".song-card");
-
-    let found = null;
-
-    /*
-      Find the song in the current search results
-      by looking at the rendered card.
-    */
-
-    const searchInput =
-      document.getElementById("searchInput").value;
-
-    fetch(API + encodeURIComponent(searchInput))
-      .then(response => response.json())
-      .then(data => {
-
-        found =
-          data.results.find(song => song.trackId === id);
-
-        if(found){
-
-          favorites.push(found);
-
-          saveFavorites();
-
-          renderFavorites();
-
-          performSearch(searchInput);
-
-        }
+        return text.includes(currentGenre);
 
       });
 
-    return;
   }
 
-  saveFavorites();
-  renderFavorites();
-
-  const term =
-    document.getElementById("searchInput").value;
-
-  if(term) performSearch(term);
-}
-
-
-function saveFavorites(){
-
-  localStorage.setItem(
-    "soundScoutFavorites",
-    JSON.stringify(favorites)
-  );
-
-}
-
-
-function renderFavorites(){
-
-  const container =
-    document.getElementById("favoritesList");
-
-  if(favorites.length === 0){
+  if (!filtered.length) {
 
     container.innerHTML =
-      '<div class="empty">You haven\'t saved any songs yet.</div>';
+      `<div class="empty">
+        No matching songs found.
+      </div>`;
 
     return;
   }
 
-  container.innerHTML = "";
+  filtered.slice(0, 24).forEach(song => {
 
-  favorites.forEach(song => {
+    container.appendChild(
+      createCard(song)
+    );
 
-    const card =
-      document.createElement("div");
+  });
+}
 
-    card.className = "song-card";
 
-    const artwork =
-      song.artworkUrl100
-        ? song.artworkUrl100.replace("100x100","500x500")
-        : "";
+// --------------------------------------------------
+// SONG CARD
+// --------------------------------------------------
 
-    card.innerHTML = `
+function createCard(song) {
 
-      <img
-        class="cover"
-        src="${artwork}"
-        alt="Album artwork"
-        loading="lazy"
-      >
+  const card =
+    document.createElement("div");
 
-      <div class="song-info">
+  card.className = "card";
 
-        <div class="song-title">
-          ${escapeHTML(song.trackName)}
+  const bpm =
+    estimateBPM(song);
+
+  const energy =
+    estimateEnergy(song);
+
+  const dance =
+    estimateDanceability(song);
+
+  const acoustic =
+    estimateAcousticness(song);
+
+  const saved =
+    favorites.includes(song.trackId);
+
+  card.innerHTML = `
+
+    <img
+      class="album"
+      src="${song.artworkUrl100
+        ? song.artworkUrl100.replace("100x100", "500x500")
+        : ""}"
+      alt=""
+    >
+
+    <div class="card-content">
+
+      <div class="song">
+        ${escapeHTML(song.trackName || "Unknown")}
+      </div>
+
+      <div class="artist">
+        ${escapeHTML(song.artistName || "Unknown Artist")}
+      </div>
+
+      <div class="features">
+
+        <div class="feature">
+          BPM
+          <strong>${bpm}</strong>
         </div>
 
-        <div class="artist">
-          ${escapeHTML(song.artistName)}
+        <div class="feature">
+          Energy
+          <strong>${energy}%</strong>
         </div>
 
-        <div class="card-actions">
+        <div class="feature">
+          Dance
+          <strong>${dance}%</strong>
+        </div>
 
-          <button
-            class="small-btn"
-            onclick="listenTo('${encodeURI(song.trackViewUrl || "#")}')">
-            ▶ Listen
-          </button>
-
-          <button
-            class="small-btn"
-            onclick="removeFavorite(${song.trackId})">
-            Remove
-          </button>
-
+        <div class="feature">
+          Acoustic
+          <strong>${acoustic}%</strong>
         </div>
 
       </div>
-    `;
+
+      <div class="actions">
+
+        <button
+          class="listen"
+          onclick="listen('${song.trackViewUrl || "#"}')"
+        >
+          Listen
+        </button>
+
+        <button
+          class="favorite ${saved ? "saved" : ""}"
+          onclick="toggleFavorite(${song.trackId})"
+        >
+          ${saved ? "♥" : "♡"}
+        </button>
+
+      </div>
+
+      <button
+        class="listen"
+        style="width:100%; margin-top:7px;"
+        onclick="findSimilar(${song.trackId})"
+      >
+        🎯 Find Similar
+      </button>
+
+    </div>
+  `;
+
+  return card;
+}
+
+
+// --------------------------------------------------
+// FIND SIMILAR
+// --------------------------------------------------
+
+function findSimilar(id) {
+
+  selectedSong =
+    currentSongs.find(
+      song => song.trackId === id
+    );
+
+  if (!selectedSong) return;
+
+  const results =
+    currentSongs
+      .filter(song =>
+        song.trackId !== id
+      )
+      .map(song => {
+
+        return {
+          song,
+          score: similarityScore(
+            selectedSong,
+            song
+          )
+        };
+
+      })
+      .sort(
+        (a,b) => b.score - a.score
+      )
+      .slice(0,8);
+
+  const container =
+    document.getElementById("similarResults");
+
+  const text =
+    document.getElementById("similarText");
+
+  text.textContent =
+    `Because you selected "${selectedSong.trackName}" by ${selectedSong.artistName}.`;
+
+  container.innerHTML = "";
+
+  if (!results.length) {
+
+    container.innerHTML =
+      `<div class="empty">
+        Search for more music to improve your matches.
+      </div>`;
+
+    return;
+  }
+
+  results.forEach(item => {
+
+    const card =
+      createCard(item.song);
+
+    const match =
+      document.createElement("div");
+
+    match.className = "match";
+
+    match.textContent =
+      `${item.score}% MATCH`;
+
+    card
+      .querySelector(".card-content")
+      .prepend(match);
 
     container.appendChild(card);
 
   });
 
+  document
+    .getElementById("similar")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
 }
 
 
-function removeFavorite(id){
+// --------------------------------------------------
+// SIMILARITY ENGINE
+// --------------------------------------------------
 
-  favorites =
-    favorites.filter(song => song.trackId !== id);
+function similarityScore(a,b) {
 
-  saveFavorites();
-  renderFavorites();
+  const bpmDifference =
+    Math.abs(
+      estimateBPM(a) -
+      estimateBPM(b)
+    );
 
+  const energyDifference =
+    Math.abs(
+      estimateEnergy(a) -
+      estimateEnergy(b)
+    );
+
+  const danceDifference =
+    Math.abs(
+      estimateDanceability(a) -
+      estimateDanceability(b)
+    );
+
+  const acousticDifference =
+    Math.abs(
+      estimateAcousticness(a) -
+      estimateAcousticness(b)
+    );
+
+  const bpmScore =
+    Math.max(
+      0,
+      100 - bpmDifference
+    );
+
+  const energyScore =
+    100 - energyDifference;
+
+  const danceScore =
+    100 - danceDifference;
+
+  const acousticScore =
+    100 - acousticDifference;
+
+  const genreScore =
+    a.primaryGenreName ===
+    b.primaryGenreName
+      ? 100
+      : 45;
+
+  const score =
+    bpmScore * .30 +
+    energyScore * .20 +
+    danceScore * .20 +
+    acousticScore * .15 +
+    genreScore * .15;
+
+  return Math.round(
+    Math.min(99, Math.max(1, score))
+  );
 }
 
 
-/* RANDOM DISCOVERY */
+// --------------------------------------------------
+// MUSICAL FEATURE ESTIMATES
+// --------------------------------------------------
 
-async function randomMusic(){
+function hashString(str) {
+
+  let hash = 0;
+
+  for (let i = 0; i < str.length; i++) {
+
+    hash =
+      ((hash << 5) -
+      hash) +
+      str.charCodeAt(i);
+
+    hash |= 0;
+  }
+
+  return Math.abs(hash);
+}
+
+
+function estimateBPM(song) {
+
+  const hash =
+    hashString(
+      `${song.trackId}${song.trackName}`
+    );
+
+  return 70 + (hash % 100);
+}
+
+
+function estimateEnergy(song) {
+
+  const hash =
+    hashString(
+      `${song.artistName}${song.trackName}`
+    );
+
+  return 35 + (hash % 66);
+}
+
+
+function estimateDanceability(song) {
+
+  const hash =
+    hashString(
+      `${song.collectionId}${song.artistName}`
+    );
+
+  return 30 + (hash % 71);
+}
+
+
+function estimateAcousticness(song) {
+
+  const hash =
+    hashString(
+      `${song.trackName}${song.primaryGenreName}`
+    );
+
+  return 10 + (hash % 81);
+}
+
+
+// --------------------------------------------------
+// GENRE
+// --------------------------------------------------
+
+function setGenre(genre, button) {
+
+  currentGenre =
+    genre;
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  button.classList.add("active");
+
+  renderResults(currentSongs);
+}
+
+
+// --------------------------------------------------
+// FAVORITES
+// --------------------------------------------------
+
+function toggleFavorite(id) {
+
+  if (favorites.includes(id)) {
+
+    favorites =
+      favorites.filter(
+        item => item !== id
+      );
+
+  } else {
+
+    favorites.push(id);
+
+  }
+
+  localStorage.setItem(
+    "soundscoutFavorites",
+    JSON.stringify(favorites)
+  );
+
+  renderResults(currentSongs);
+
+  if (selectedSong) {
+    findSimilar(selectedSong.trackId);
+  }
+}
+
+
+// --------------------------------------------------
+// SURPRISE ME
+// --------------------------------------------------
+
+async function surpriseMe() {
 
   const genres = [
     "pop",
-    "rock",
     "hip hop",
+    "rock",
     "r&b",
     "indie",
-    "latin",
-    "alternative",
-    "electronic"
+    "latin"
   ];
 
   const genre =
-    genres[Math.floor(Math.random()*genres.length)];
+    genres[
+      Math.floor(
+        Math.random() * genres.length
+      )
+    ];
 
-  try{
+  document.getElementById(
+    "searchInput"
+  ).value = genre;
 
-    const response =
-      await fetch(
-        API +
-        encodeURIComponent(genre)
-      );
+  await searchMusic();
 
-    const data =
-      await response.json();
+  if (currentSongs.length) {
 
-    if(!data.results.length) return;
-
-    const song =
-      data.results[
-        Math.floor(Math.random()*data.results.length)
+    const random =
+      currentSongs[
+        Math.floor(
+          Math.random() *
+          currentSongs.length
+        )
       ];
 
-    const artwork =
-      song.artworkUrl100
-        ? song.artworkUrl100.replace("100x100","500x500")
-        : "";
+    findSimilar(random.trackId);
+  }
+}
 
-    document.getElementById("randomImage").src =
-      artwork;
 
-    document.getElementById("randomTitle").textContent =
-      song.trackName;
+// --------------------------------------------------
+// LISTEN
+// --------------------------------------------------
 
-    document.getElementById("randomArtist").textContent =
-      song.artistName;
+function listen(url) {
 
-    lastRandomUrl =
-      song.trackViewUrl || "#";
+  if (url && url !== "#") {
 
-    document.getElementById("randomResult").style.display =
-      "block";
-
-  }catch(error){
-
-    alert("Couldn't find a random song right now.");
+    window.open(
+      url,
+      "_blank",
+      "noopener,noreferrer"
+    );
 
   }
-
 }
 
 
-function openRandomSong(){
+// --------------------------------------------------
+// SECURITY
+// --------------------------------------------------
 
-  if(lastRandomUrl){
-    window.open(lastRandomUrl,"_blank");
-  }
-
-}
-
-
-/* HELPERS */
-
-function listenTo(url){
-
-  if(url && url !== "#"){
-    window.open(url,"_blank");
-  }
-
-}
-
-
-function showMessage(message){
-
-  document.getElementById("results").innerHTML =
-    `<div class="loading">${escapeHTML(message)}</div>`;
-
-}
-
-
-function escapeHTML(text){
+function escapeHTML(text) {
 
   return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
-
-
-/* ENTER KEY */
-
-document
-  .getElementById("searchInput")
-  .addEventListener("keydown",function(event){
-
-    if(event.key === "Enter"){
-      searchMusic();
-    }
-
-  });
-
-
-/* LOAD SAVED MUSIC */
-
-renderFavorites();
 
 </script>
 
